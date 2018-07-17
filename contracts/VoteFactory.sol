@@ -21,6 +21,7 @@ contract VoteFactory is Ownable {
         string[] answers;
         State stateVote;
         mapping(uint256 => uint256) answerToCounter; // (_answerId => count)
+        mapping(address => bool) voteCheck;
     }
     
     Vote[] public votes;
@@ -76,9 +77,11 @@ contract VoteFactory is Ownable {
     }
     
     function cast(uint256 _voteId, uint256 _answerId) external Started (_voteId) {
-        votes[_voteId].answerToCounter[_answerId] +=1;   
-    }
-
+        require(!votes[_voteId].voteCheck[msg.sender]);
+        votes[_voteId].answerToCounter[_answerId] +=1; 
+        votes[_voteId].voteCheck[msg.sender] = true;
+        }
+   
     function results(uint _voteId) external view returns(string) {
         uint256 max = votes[_voteId].answerToCounter[0];
         uint256 maxAnswerId =0;

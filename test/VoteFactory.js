@@ -94,6 +94,5 @@ contract('VoteFactory', function(accounts) {
         await expectThrow(voteFactory.changeQuestion(0, questionCh, {from: user})); 
         await expectThrow(voteFactory.changeAnswer(0, 0, answerCh, {from: user})); 
     })
-
-   
+ 
 });
